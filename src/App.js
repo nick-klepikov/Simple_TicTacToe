@@ -9,53 +9,37 @@ function App() {
         [curWinner, setCurWinner] = useState(null),
         [curMove, setCurMove] = useState(0);
 
-    useEffect(() => {
-        let variantsOfWin = ["XXX", "OOO"];
-        if (variantsOfWin.includes(board[0] + board[1] + board[2])) {
-            setIsGameOver(1);
-            setCurWinner(board[0]);
-        }
 
-        if (variantsOfWin.includes(board[3] + board[4] + board[5])) {
-            setIsGameOver(1);
-            setCurWinner(board[3]);
-        }
+    const getWinner = () => {
+        let variantsOfWin = ["XXX", "OOO"],
+            winnerCombinations = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
 
-        if (variantsOfWin.includes(board[6] + board[7] + board[8])) {
-            setIsGameOver(1);
-            setCurWinner(board[6]);
-        }
-
-        if (variantsOfWin.includes(board[0] + board[3] + board[6])) {
-            setIsGameOver(1);
-            setCurWinner(board[0]);
-        }
-
-        if (variantsOfWin.includes(board[1] + board[4] + board[7])) {
-            setIsGameOver(1);
-            setCurWinner(board[4]);
-        }
-
-        if (variantsOfWin.includes(board[2] + board[5] + board[8])) {
-            setIsGameOver(1);
-            setCurWinner(board[2]);
-        }
-
-        if (variantsOfWin.includes(board[0] + board[4] + board[8])) {
-            setIsGameOver(1);
-            setCurWinner(board[0]);
-        }
-
-        if (variantsOfWin.includes(board[2] + board[4] + board[6])) {
-            setIsGameOver(1);
-            setCurWinner(board[2]);
+        for (let el of winnerCombinations) {
+            if (variantsOfWin.includes(board[el[0]] + board[el[1]] + board[el[2]])) {
+                setCurWinner(board[el[0]]);
+                setIsGameOver(1);
+                return;
+            }
         }
 
         if (board.every(el => el !== null) && !isGameOver) {
-            setIsGameOver(1);
             setCurWinner(-1);
+            setIsGameOver(1);
         }
-    }, [board, isGameOver])
+    }
+
+    useEffect(() => {
+        getWinner();
+    }, [board, getWinner])
 
     const makeMove = (ind) => {
         if (board[ind] || isGameOver) return;
@@ -71,6 +55,7 @@ function App() {
     const restartGame = () => {
         setBoard(new Array(9).fill(null));
         setCurWinner(null);
+        setCurMove(0);
         setIsGameOver(0);
     };
 
