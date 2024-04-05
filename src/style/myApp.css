@@ -2,6 +2,15 @@
     text-align: center;
 }
 
+.App {
+    background: linear-gradient(to right top, #0052ce, #12e8e8);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .board {
     border: 4px solid lightblue;
     border-radius: 10px;
@@ -30,7 +39,7 @@
 }
 
 .winner2-text {
-    color: orangered;
+    color: #ddaaff;
 }
 
 .draw-text {
